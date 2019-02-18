@@ -1,6 +1,7 @@
 import random
 import math
 from BT import Node
+from AVLTree import AVLTree
 
 def biSearch(li, x, low, high):
     """this is binary search tree"""
@@ -242,10 +243,10 @@ def heapSort(li):
     while len(li) > 0:
 
 
-        li[j], li[len(li) - (j + 1)] = li[len(li) - (j + 1)], li[j]
+        li[0], li[len(li) - 1] = li[len(li) - 1], li[0]
         arr.append(li[-1])
 
-        lk = li[0:len(li) - (j+1)]
+        lk = li[0:len(li) - 1]
 
         for i in range(len(lk) - 1, -1, -1):
             heapify(lk, i)
@@ -567,62 +568,6 @@ def palindom(s):
             return False
 
 
-def hanoi(n, f, t, s):
-    """
-    tower of hanoi
-    n number of stacks
-    f from stack
-    s spare stack
-    t target stack
-    """
-
-    if n == 1:
-        print "move " + " from " + f + " to " + t
-    else:
-        hanoi(n-1, f, s, t)
-        hanoi(1, f, t, s)
-        hanoi(n-1, s, t, f)
-
-
-def fib(n):
-    """fib expontional way"""
-    if n <= 2:
-        return 1
-    return fib(n-1) + fib(n-2)
-
-m = {1: 1, 2: 1}
-def fibdp(n):
-    """fib dp way"""
-
-    if m.get(n):
-        return m[n]
-    else:
-        mo = fib(n-1) + fib(n-2)
-        m[n] = mo
-        return mo
-
-def fibdpBT(n):
-    """fib dp bottom to top way start from minimal to solve larger"""
-    mo = {1: 1, 2: 1}
-
-    for i in range(3, n+1):
-        k = mo[i-1] + mo[i-2]
-        mo[i] = k
-
-    return mo[n]
-
-def palindom(s):
-    """check if its palingdom or not"""
-    if len(s) <= 1:
-        return True
-    else:
-        if s[0] == s[-1]:
-            return palindom(s[1:-1])
-        else:
-            return False
-
-
-
 
 if __name__ == "__main__":
 
@@ -652,7 +597,7 @@ if __name__ == "__main__":
     # lk = countSort(li)
     # print lk
 
-    heapSort(li)
+    #heapSort(li)
 
     #hanoi(3, 'f', 't', 's')
 
@@ -677,6 +622,19 @@ if __name__ == "__main__":
     # n.insert(15)
     # n.printTree()
     # print n.search(2)
+
+    avl = AVLTree()
+    root = None
+    root = avl.insert(root, 10)
+
+    root = avl.insert(root, 20)
+    root = avl.insert(root, 30)
+    root = avl.insert(root, 40)
+    root = avl.insert(root, 50)
+    root = avl.insert(root, 25)
+
+    avl.preOrder(root)
+
 
 
 
