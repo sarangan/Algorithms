@@ -263,254 +263,6 @@ def heapSort(li):
         #break
 
     print arr
-import random
-import math
-from BT import Node
-
-def biSearch(li, x, low, high):
-    """this is binary search tree"""
-    # if high - low < 2:
-    #     return li[low] == x or li[high] == x
-    mid = int((low + high) / 2)  #low + int((high - low)/2)
-
-    if low == mid or low == high:
-        return li[low] == x or li[high] == x
-
-    if li[mid] == x:
-        return True
-    elif li[mid] > x:
-        return biSearch(li, x, low, mid)
-    elif li[mid] < x:
-        return biSearch(li, x, mid, high)
-
-def selectionSort(li):
-    """selection sort"""
-    for i in range(0,len(li)):
-        for j in range(0,len(li)):
-            if li[i] < li[j]:
-                li[i], li[j] = li[j], li[i]
-    print li
-
-
-def bubbleSort(li):
-    """bubble sort"""
-    for i in range(0, len(li)):
-        for j in range(0, len(li) - i - 1):
-            if li[j] > li[j+1]:
-                li[j], li[j+1] = li[j+1], li[j]
-    print li
-
-
-def insertionSort(li):
-    """insertion sort"""
-    for i in range(1, len(li)):
-        temp = li[i]
-        for j in range(i-1, -1, -1):
-            if temp < li[j]:
-                li[j+1], li[j] = li[j], li[j+1]
-
-    print li
-
-
-def shellSort(li):
-    """shell sort"""
-    gap = int(len(li) / 2)
-
-    while gap > 0:
-
-        for i in range(gap):
-
-            for j in range(i + gap, len(li), gap):
-
-                for k in range(j, -1, -gap):
-
-                    if li[k] > li[j]:
-                        li[k], li[j] = li[j], li[k]
-
-        gap = int(gap / 2)
-
-
-    print li
-
-
-def merge(left, right):
-    i,j =0,0
-    result = []
-    while i < len(left) and j < len(right):
-        if left[i] < right[j]:
-            result.append(left[i])
-            i +=1
-        else:
-            result.append(right[j])
-            j +=1
-
-    if i < len(left):
-        for k in range(i, len(left)):
-            result.append(left[k])
-
-    if j < len(right):
-        for k in range(j, len(right)):
-            result.append(right[k])
-
-    return result
-
-def mergeSort(li):
-    """merge sort"""
-
-    #print li
-
-    if len(li) < 2:
-        return li[:]
-    else:
-        mid = int(len(li) / 2)
-        left = mergeSort(li[:mid])
-        right = mergeSort(li[mid:])
-        return merge(left, right)
-
-
-def quickSort(li):
-    """quick sort"""
-
-    if len(li) < 2:
-        return li
-
-    median = int(len(li)/2)
-
-    left, right, eq = [], [], []
-    for i in range(len(li)):
-        if li[i] == li[median]:
-            eq.append(li[i])
-        elif li[i] < li[median]:
-            left.append(li[i])
-        else:
-            right.append(li[i])
-
-    return quickSort(left) + eq + quickSort(right)
-
-
-def partition(li, low, high):
-    """partitioning"""
-
-    pivot = li[high]
-    i = low - 1
-
-    for j in range(low, high):
-
-        if li[j] < pivot:
-            i = i + 1
-            li[j], li[i] = li[i], li[j]
-    i = i + 1
-    li[i], li[high] = li[high], li[i]
-
-    return i
-
-
-
-
-def quickSort2(li, low, high):
-    """quick sort 2"""
-
-    if low < high:
-        p = partition(li, low, high)
-
-        quickSort2(li, low, p-1)
-        quickSort2(li, p+1, high)
-
-
-def redixSort(li, bucket):
-    """redix sort"""
-
-    d = {}
-    done = True
-
-    for i in range(0, len(li)):
-        bk = 1 * int(math.pow(10, bucket))
-        pointer = int((li[i] / bk ) % 10)
-        #print pointer
-
-        if pointer != 0:
-            done = False
-
-        if d.get(pointer):
-            temp = d[pointer]
-            temp.append(li[i])
-            d[pointer] = temp
-        else:
-            d[pointer] = [li[i]]
-
-    k = 0
-    for i in d.values():
-        if i is not None:
-            arr = i
-            for l in arr:
-                li[k] = l
-                k += 1
-
-    if done == True:
-        return li
-
-    m = redixSort(li, bucket + 1 )
-    return m
-
-
-def countSort(li):
-    """count sort"""
-
-    cs = [None] * 100
-
-    for i in range(len(li)):
-
-        if li[i] >= len(cs):
-            cs = cs + ([None] * (li[i] - len(cs) / 2 ) )
-
-        if li[i] < len(cs):
-            pointer = li[i]
-            get_arr = cs[pointer]
-            if get_arr is not None:
-                get_arr.append(pointer)
-                cs[pointer] = get_arr
-            else:
-                cs[pointer] = [pointer]
-    li = []
-    for j in range(len(cs)):
-        if cs[j] is not None:
-            for k in cs[j]:
-                li.append(k)
-
-    return li
-
-
-def heapify(li, i):
-    """min heapify"""
-
-    parent = (i - 1) / 2
-
-    if parent >= 0:
-        if li[i] < li[parent]:
-            li[parent], li[i] = li[i], li[parent]
-            heapify(li, parent)
-
-    # else:
-    #     return li
-
-
-
-def heapSort(li):
-    """heap sort"""
-
-    for i in range(len(li)-1, -1, -1):
-        heapify(li, i)
-
-    heap = []
-    j = 0
-    while len(li) > 0:
-
-        li[0], li[len(li) - 1] = li[len(li) - 1], li[0]
-        heap.append(li[-1])
-        li = li[0: (len(li) - 1)]
-        for i in range(len(li) - 1, -1, -1):
-            heapify(li, i)
-    print heap
 
 
 def hanoi(n, f, t, s):
@@ -568,6 +320,32 @@ def palindom(s):
             return False
 
 
+def primeNumber(n):
+    """check prime number"""
+
+    if n < 2:
+        return False
+
+    if n == 2:
+        return True
+
+    for i in range(2, int(math.sqrt(n)) + 1 ):
+        if n % i == 0:
+            return False
+    return True
+
+def denominator(x, y):
+    """get the greatest denominator"""
+    if x >= y:
+        r = x - y
+        if r == 0:
+            return y
+        elif r > y:
+            return y
+        else:
+            return denominator(y, r)
+
+
 
 if __name__ == "__main__":
 
@@ -623,17 +401,23 @@ if __name__ == "__main__":
     # n.printTree()
     # print n.search(2)
 
-    avl = AVLTree()
-    root = None
-    root = avl.insert(root, 10)
+    # avl = AVLTree()
+    # root = None
+    # root = avl.insert(root, 10)
+    # root = avl.insert(root, 20)
+    # root = avl.insert(root, 30)
+    # root = avl.insert(root, 40)
+    # root = avl.insert(root, 50)
+    # root = avl.insert(root, 25)
+    # avl.preOrder(root)
 
-    root = avl.insert(root, 20)
-    root = avl.insert(root, 30)
-    root = avl.insert(root, 40)
-    root = avl.insert(root, 50)
-    root = avl.insert(root, 25)
+    #print primeNumber(20)
 
-    avl.preOrder(root)
+    #print denominator(20, 16)
+
+
+
+
 
 
 
