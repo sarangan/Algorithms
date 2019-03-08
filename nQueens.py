@@ -1,63 +1,55 @@
-def printBoard(board):
-    """print successfull board"""
-    print board
 
-def checkValidMove(board, row, col):
+def isValidPlacement(colPlacements):
+
+    last_queen = colPlacements[-1]
+
+    print 'last_queen'
+    print last_queen
+
+    for i in range(len(colPlacements)):
+
+        getAbsDistance = abs(colPlacements[i] - last_queen)
+
+        print 'getAbsDistance'
+        print getAbsDistance
 
 
-    for i in range(col):
-        if board[row][i] == 1:
-            return False
-
-    # Check upper diagonal on left side
-    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
-
-    # Check lower diagonal on left side
-    for i, j in zip(range(row, 4, 1), range(col, -1, -1)):
-        if board[i][j] == 1:
+        if getAbsDistance == 0 or getAbsDistance == (len(colPlacements) - i ):
             return False
 
     return True
 
-def solveQueens(board, queens, row=0):
-    """backtracking n queens main recursive func"""
 
-    #print row
-    #print "--"
 
-    if row >= queens:
-        return True
 
-    for col in range(queens):
+def solveNQueens(n, row, colPlacements, result):
 
-        print row, col
 
-        print checkValidMove(board, row, col)
+    if row == n:
 
-        if checkValidMove(board, row, col):
-            board[row][col] = 1
+        result.append(colPlacements)
+        print result
 
-            if solveQueens(board, queens, row+1) == True:
-                return True
+    else:
 
-            board[row][col] = 0
+        for col in range(n):
 
-    return False
+            colPlacements.append(col)
+            #colPlacements[col] = col
+
+            print isValidPlacement(colPlacements)
+
+            if isValidPlacement(colPlacements):
+                solveNQueens(n, row+1, colPlacements, result)
+
+            colPlacements.pop()
 
 
 
 if __name__ == "__main__":
+    no_of_queens = 8
+    colPlacements = [] #[0 for i in range(no_of_queens)]
+    result = []
+    solveNQueens(no_of_queens, 0, colPlacements, result)
 
-
-    queens = 4
-
-    board = [[0 for i in range(queens)] for j in range(queens)]
-
-    print board
-
-    x = solveQueens(board, queens)
-
-    if x:
-        printBoard(board)
+    print result
