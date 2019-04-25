@@ -41,7 +41,7 @@ def solveColor(A, row, colPlacements, result):
 
 def solution(A):
     # write your code in Python 3.6
-    # lets take one element which can be either R G B ( 3 posibilites)
+    # lets take one element which can be either R G B ( 3 possibilities)
 
     colPlacements = []
     result = []
